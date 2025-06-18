@@ -16,7 +16,5 @@ COPY --from=builder /usr/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6
 COPY --from=builder /app/bin/. /app/bin/
 COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/node_modules /app/node_modules
-COPY security/ security/
-COPY csv/ csv/
 COPY --from=builder /app /app
 CMD ["node" , "/app/bin/index.js"]

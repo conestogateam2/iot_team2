@@ -1,7 +1,10 @@
 import * as mqtt from 'mqtt'; 
-import { getFormattedTimestamp } from './functions/functions.js'; 
+import { getFormattedTimestamp, insertRobotData } from './functions/functions.js'; 
 import dotenv from 'dotenv';
 import logger from './functions/logger.js';
+import {Pool} from 'pg';
+
+
 
 dotenv.config();
 
@@ -10,11 +13,15 @@ const mqttPort = parseInt(process.env.MQTT_BROKER_PORT || '1883', 10);
 const mqttUsername=process.env.MQTT_BROKER_USERNAME || 'admin';
 const mqttPassword=process.env.MQTT_BROKER_PASSWORD || 'admin';
 const mqttTopic=process.env.MQTT_TOPICS || 'm/#';
-const divisionName=process.env.DIVISION || 'GRX';
-const duration = parseInt(process.env.DURATION_MINUTES || '30', 10);
-const expiry = parseInt(process.env.EXPIRY_TIME_MINUTES || '2', 10);
 
-logger.info(`Division Name: ${divisionName}`);
+const dbUser=process.env.DB_USER || 'user';
+const dbHost=process.env.DB_HOST || 'localhost';
+const dbDatabase=process.env.DB_DATABASE || 'db';
+const dbPassword=process.env.DB_PASSWORD || 'pass';
+const dbPort=parseInt(process.env.DB_PORT || '5432', 10);
+const dbTable=process.env.DB_TABLE || 'test_table';
+
+
 logger.info(`MQTT Broker URL: ${mqttHost}`);
 logger.info(`MQTT Broker Port: ${mqttPort}`);
 logger.info(`MQTT Broker Username: ${mqttUsername}`);
@@ -22,6 +29,14 @@ logger.info(`MQTT Topic: ${mqttTopic}`);
 
 //Variables to check connection state
 let isConnected = false;
+
+const pool = new Pool({
+  user: dbUser,
+  host: dbHost,
+  database: dbDatabase,
+  password: dbPassword,
+  port: dbPort
+})
 
 const client = mqtt.connect(mqttHost, {
   username: mqttUsername,
@@ -35,60 +50,59 @@ const client = mqtt.connect(mqttHost, {
     if (mqttTopic.length > 0) {
       client.subscribe(mqttTopic, (err) => {
         if (err) {
-          logger.error(`Subscription error for topic ${mqttTopic} on ${divisionName}: ${err.message}`);
+          logger.error(`Subscription error for topic ${mqttTopic}: ${err.message}`);
         } else {
-          logger.info(`Subscribed to ${mqttTopic} on ${divisionName}`);
+          logger.info(`Subscribed to ${mqttTopic}`);
         }
       });
     } else {
       // If topic not specified 
       client.subscribe('m/#', (err) => {
         if (err) {
-          logger.error(`Subscription error for topic '#' on ${divisionName}: ${err.message}`);
+          logger.error(`Subscription error for topic '#' on: ${err.message}`);
         } else {
-          logger.info(`Subscribed to '#' on ${divisionName}`);
+          logger.info(`Subscribed to '#'`);
         }
       });
     }
 
       client.on('connect', () => {
     isConnected = true;
-    logger.info(`MQTT_CLIENT_CONNECTED { Broker: ${divisionName} Username: ${mqttUsername}}`);
+    logger.info(`MQTT_CLIENT_CONNECTED {Username: ${mqttUsername}}`);
    
 
   });
 
   client.on('error', (error) => {
     isConnected = false;
-    logger.error(`MQTT_CLIENT_ERROR { Broker: ${divisionName} Username: ${mqttUsername} Error: ${error.message}}`);
+    logger.error(`MQTT_CLIENT_ERROR {Username: ${mqttUsername} Error: ${error.message}}`);
   });
 
   client.on('reconnect', () => {
     isConnected = false;
-    logger.error(`MQTT_CLIENT_RECONNECTING { Broker: ${divisionName} Username: ${mqttUsername}}`);
+    logger.error(`MQTT_CLIENT_RECONNECTING {Username: ${mqttUsername}}`);
   });
 
   client.on('offline', () => {
     isConnected = false;
-    logger.error(`MQTT_CLIENT_OFFLINE { Broker: ${divisionName} Username: ${mqttUsername}}`);
+    logger.error(`MQTT_CLIENT_OFFLINE {Username: ${mqttUsername}}`);
   });
   
   client.on('close', () => {
     isConnected = false;
-    logger.error(`MQTT_CLIENT_CLOSED { Broker: ${divisionName} Username: ${mqttUsername}}`);
+    logger.error(`MQTT_CLIENT_CLOSED {Username: ${mqttUsername}}`);
   });
 
 // Manage messaging
 client.on('message', (topic: string, payload: Buffer) => {
   const timestamp = Date.now();
   const formattedTimestamp = getFormattedTimestamp();
-  const data: string = `${formattedTimestamp} ${divisionName} -> ${topic} -> ${payload.toString()}`;
-
+  const data: string = `${formattedTimestamp} -> ${topic} -> ${payload.toString()}`;
+  insertRobotData(JSON.parse(payload.toString()),pool, dbTable);
   console.log(data);
   
 
 });
-
 
 
 
