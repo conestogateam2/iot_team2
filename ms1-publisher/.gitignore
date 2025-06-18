@@ -1,0 +1,23 @@
+# Javascript output directory
+bin
+bin/
+
+# Dependency directories
+node_modules
+node_modules/
+package-lock.json
+# dotenv environment variables file
+.env
+*.env
+.env.test
+.env.production
+.aws/
+*.txt
+!LICENSE.txt
+
+
+# Logs
+logs.xlsx
+*.log
+
+docker-compose.yml
