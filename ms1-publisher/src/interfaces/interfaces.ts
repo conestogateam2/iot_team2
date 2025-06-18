@@ -2,7 +2,7 @@ export interface robotPayload {
   Version: string;
   Timestamp: string;
   RobotName: string;
-  Status: string;
+  Status: iStatus;
   SpeedPercentage: number;
   RobotPosition: iRobotPosition;
   RobotTorque: iRobotTorque
@@ -20,5 +20,12 @@ interface iRobotTorque{
   T2: number,
   T3: number,
   T4: number,
+}
+
+interface iStatus {
+  Initialized: boolean
+  Running: boolean
+  Paused: boolean
+  WsViolation: boolean
 }
 

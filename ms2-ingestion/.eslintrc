@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es2020": true,
+        "node":true
+    },
+    "extends": [
+        "plugin:import/typescript", 
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:import/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint", 
+        "prettier"
+    ],
+    "rules": {
+        "import/no-unresolved": "off",
+        "prettier/prettier": ["error"],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+         ]
+    },
+    "settings": {
+        "import/resolver": {
+        "node": {
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+         }
+        }
+    }
+}

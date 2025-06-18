@@ -124,7 +124,12 @@ function parsePayload(keyValueObj: any): robotPayload {
     Version: '1.0.0',
     Timestamp: getLocalTimeInISOFormat(),
     RobotName: RobotName,
-    Status: getStatus(),
+    Status: {
+      Initialized: keyValueObj.Initialized ?? false,
+      Running: keyValueObj.Running ?? false,
+      Paused: keyValueObj.Paused ?? false,
+      WsViolation: keyValueObj.WsViolation ?? false,
+    },
     SpeedPercentage: keyValueObj.Speed ?? -1,
     RobotPosition: 
       {
@@ -145,25 +150,7 @@ function parsePayload(keyValueObj: any): robotPayload {
 }
 
 
-function getStatus(){
 
-  if (keyValueObj.Initialized) {
-    return 'Initialized';
-  }
-  else if (keyValueObj.Running) {
-    return 'Running';
-  }
-  else if (keyValueObj.WsViolation) {
-    return 'WsViolation';
-  }
-  else if (keyValueObj.Paused) {
-    return 'Paused';
-  }
-  else {
-    return 'Unknown';
-  }
-
-}
 
 //-------------------------------------------------------------------------Tag Value Monitor
 
