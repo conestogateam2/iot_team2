@@ -1,12 +1,21 @@
-version: '3.9'
+version: "3.8"
 
 services:
-  robot-service:
-    build: .
+  robot-monitor:
+    image: ms3:latest
+    container_name: robot-api
+    restart: unless-stopped
+    environment:
+      - DB_USER=postgres
+      - DB_PORT=3306
+      - DB_HOST=host.docker.internal
+      - DB_DATABASE=academy00
+      - DB_PASSWORD=academy2024!
+      - DB_TABLE=robot_data_team2
     ports:
       - "3000:3000"
-    env_file:
-      - .env
-    volumes:
-      - .:/app
-    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
