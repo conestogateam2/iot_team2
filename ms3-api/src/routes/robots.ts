@@ -60,8 +60,8 @@ router.get('/', async (req, res) => {
         const result = await pool.query<iRobotSchema>(query, values);
         return res.json(result.rows);
       } catch (err) {
-        console.error('Error ejecutando query:', err);
-        res.status(500).json({ error: 'Error al obtener registros por rango de fecha' });
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Error obtaining data' });
       }
   });
 
@@ -71,14 +71,14 @@ router.get('/', async (req, res) => {
     const { from, to, robot_name } = req.query;
   
     if (!from || !to || typeof from !== 'string' || typeof to !== 'string' || !robot_name || typeof robot_name !== 'string') {
-      return res.status(400).json({ error: 'Parámetros "from", "to" y "robot_name" son requeridos y deben ser strings.' });
+      return res.status(400).json({ error: ' "from", "to" and "robot_name" are required and must be stringd' });
     }
   
     const fromDate = new Date(from);
     const toDate = new Date(to);
   
     if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
-      return res.status(400).json({ error: 'Fechas inválidas en "from" o "to"' });
+      return res.status(400).json({ error: 'Invalid Dates "from" o "to"' });
     }
   
     const query = `
@@ -97,8 +97,8 @@ router.get('/', async (req, res) => {
         has_violation: boolean;
       }>(query, values);
   
-      let countA = 0; // ciclos positivos
-      let countB = 0; // ciclos negativos
+      let countA = 0; 
+      let countB = 0; 
   
       let prevY: number | null = null;
       let prevTimestamp: number | null = null;
@@ -106,13 +106,13 @@ router.get('/', async (req, res) => {
       const timestampsA: number[] = [];
       const timestampsB: number[] = [];
   
-      // Variables para tiempos en ms
+      
       let runningTime = 0;
       let pausedTime = 0;
       let violationTime = 0;
       let idleTime = 0;
   
-      // Para calcular IdleTime
+      
       let idleStartTimestamp: number | null = null;
   
       for (let i = 0; i < result.rows.length; i++) {
@@ -120,7 +120,7 @@ router.get('/', async (req, res) => {
         const y = row.position_y;
         const ts = new Date(row.timestamp).getTime();
   
-        // Conteo de eventos A y B
+        //Counting parts A and B
         if (prevY !== null) {
           if (prevY >= 0 && y < 0) {
             countB++;
@@ -131,30 +131,28 @@ router.get('/', async (req, res) => {
           }
         }
   
-        // Calculo IdleTime:
-        // Si la posición no cambió más de un umbral (por ejemplo 0.01) y lleva más de 2s, es idle
+        
+        // If position is not changing, then is idleTime
         const positionDiff = prevY !== null ? Math.abs(y - prevY) : 0;
   
         if (prevTimestamp !== null) {
-          const timeDiff = ts - prevTimestamp; // ms entre muestras
+          const timeDiff = ts - prevTimestamp; 
   
           if (positionDiff < 0.01) {
-            // Posición casi constante, posible idle
             if (idleStartTimestamp === null) {
-              idleStartTimestamp = prevTimestamp; // inicio de posible idle
+              idleStartTimestamp = prevTimestamp; // Starting possible idle
             }
           } else {
-            // Movimiento detectado, si estaba en idle, sumamos el tiempo idle acumulado
+            // Movement detectd, if idle was active sum time
             if (idleStartTimestamp !== null) {
               const idleDuration = prevTimestamp - idleStartTimestamp; // ms
-              if (idleDuration >= 2000) { // si el idle duró más de 2s
+              if (idleDuration >= 2000) { // if idle for more than 2 seconds
                 idleTime += idleDuration;
               }
               idleStartTimestamp = null;
             }
           }
   
-          // Contar tiempos de flags para el intervalo previo
           if (result.rows[i - 1]) {
             const prevRow = result.rows[i - 1];
             const prevTs = new Date(prevRow.timestamp).getTime();
@@ -170,7 +168,7 @@ router.get('/', async (req, res) => {
         prevTimestamp = ts;
       }
   
-      // Por si el último estado fue idle y no hubo movimiento para cerrar el periodo
+      //Update total idle duration
       if (idleStartTimestamp !== null && prevTimestamp !== null) {
         const idleDuration = prevTimestamp - idleStartTimestamp;
         if (idleDuration >= 2000) {
@@ -178,7 +176,7 @@ router.get('/', async (req, res) => {
         }
       }
   
-      // Promedios de ciclos ya existentes
+      // Fcn for calculate avg cycle times
       function averageCycleTime(timestamps: number[]): number | null {
         if (timestamps.length < 2) return null;
         let totalDiff = 0;
@@ -233,8 +231,8 @@ router.get('/', async (req, res) => {
       });
   
     } catch (err) {
-      console.error('Error ejecutando query:', err);
-      return res.status(500).json({ error: 'Error al contar ciclos de posición_y' });
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: 'Error countuing cycles' });
     }
   });
   
