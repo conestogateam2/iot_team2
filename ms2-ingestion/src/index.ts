@@ -76,6 +76,7 @@ const client = mqtt.connect(mqttHost, {
   client.on('error', (error) => {
     isConnected = false;
     logger.error(`MQTT_CLIENT_ERROR {Username: ${mqttUsername} Error: ${error.message}}`);
+    process.exit(1);
   });
 
   client.on('reconnect', () => {
@@ -86,11 +87,13 @@ const client = mqtt.connect(mqttHost, {
   client.on('offline', () => {
     isConnected = false;
     logger.error(`MQTT_CLIENT_OFFLINE {Username: ${mqttUsername}}`);
+    process.exit(1);
   });
   
   client.on('close', () => {
     isConnected = false;
     logger.error(`MQTT_CLIENT_CLOSED {Username: ${mqttUsername}}`);
+    process.exit(1);
   });
 
 // Manage messaging
