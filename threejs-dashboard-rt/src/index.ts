@@ -270,12 +270,17 @@ function isAtCenter(posx: number, posy: number, window: number){
   if(Math.abs(posx)<=window && Math.abs(posy)<=window)
   {
    robotPicking=true;
+   return "picking"
     
   }
 
   if (robotPicking)
   {
-
+    if(Math.abs(posx)>=window && Math.abs(posy)>=window)
+      {
+       robotPicking=true;
+        
+      }
   }
 
 }

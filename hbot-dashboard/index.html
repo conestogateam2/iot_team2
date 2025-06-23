@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>H-Bot Dashboard</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header>
+      <img src="/assets/logo.png" alt="Company Logo" class="logo" />
+      <div class="controls">
+        <button onclick="setMode('realtime')">RealTime</button>
+        <button id="repeatModeButton">Repeat Sequence</button>
+        <button onclick="setMode('manual')">Move Manually</button>
+      </div>
+      <div class="date" id="current-date"></div>
+    </header>
+
+    <div id="main">
+      <div id="three-container"></div>
+      <div id="coord-panel">
+        <h2>H-Bot Position</h2>
+        <p id="coordX">X: 0</p>
+        <p id="coordY">Y: 0</p>
+        <p id="coordZ">Z: 0</p>
+
+        <hr />
+          <h3>Manual Controls</h3>
+          <div id="manual-controls">
+            <div class="axis-control">
+              <label>X:</label>
+              <button onclick="moveAxis('x', -1)">-</button>
+              <button onclick="moveAxis('x', 1)">+</button>
+            </div>
+            <div class="axis-control">
+              <label>Y:</label>
+              <button onclick="moveAxis('y', -1)">-</button>
+              <button onclick="moveAxis('y', 1)">+</button>
+            </div>
+            <div class="axis-control">
+              <label>Z:</label>
+              <button onclick="moveAxis('z', -1)">-</button>
+              <button onclick="moveAxis('z', 1)">+</button>
+            </div>
+          </div>
+
+
+        <hr />
+        <div id="rawValues">
+          <h3>Raw API Values</h3>
+          <p id="rawData">Esperando datos...</p>
+        </div>
+        <hr>
+        <h3>Repeat Sequence</h3>
+        <label>Desde: <input type="datetime-local" id="fromTime" value="2025-06-20T20:30"></label><br>
+        <label>Hasta: <input type="datetime-local" id="toTime" value="2025-06-20T20:31"></label><br><br>
+        <button id="startRepeat">Iniciar Repetición</button>
+        <hr />
+        <h3>Axes Legend</h3>
+        <p style="color:#ffaa00;">● X Axis (Dynamic X Bar)</p>
+        <p style="color:#00ff00;">● Y Axis (Vertical Movement)</p>
+        <p style="color:#00ffff;">● Z Axis (Moving Rail)</p>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

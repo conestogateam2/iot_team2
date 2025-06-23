@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+}
+
+header {
+  height: 60px;
+  background-color: #1f1f1f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #444;
+}
+
+.logo {
+  height: 40px;
+}
+
+.controls button {
+  margin: 0 5px;
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #555;
+}
+
+.date {
+  font-size: 14px;
+}
+
+#main {
+  display: flex;
+  height: calc(100vh - 60px); /* Full height minus header */
+}
+
+#three-container {
+  width: 50vw;
+  height: 100%;
+  overflow: hidden;
+}
+
+#coord-panel {
+  width: 50vw;
+  height: 100%;
+  background-color: #111;
+  color: #0f0;
+  font-family: monospace;
+  font-size: 1.2em;
+  padding: 1em;
+  overflow-y: auto;
+}
+
+.axis-control button {
+  padding: 16px 32px;
+  font-size: 1.4em;
+  background-color: black;
+  color: #00ff00;
+  border: 3px solid #00ff00;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 80px;
+  min-height: 60px;
+  font-weight: bold;
+}
+
+.axis-control label {
+  font-size: 1.2em;
+  width: 30px;
+}
+
