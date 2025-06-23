@@ -43,6 +43,8 @@ Ensure your computer is connected to the same network and you can ping the opc s
 
 ```bash
 git clone https://github.com/conestogateam2/iot_team2.git
+
+cd ms1-publisher
 ```
 
 > ⚠️ **Important:** Make sure to update the robot name, MQTT topic and OPC UA tags according to your specific robot setup. 
@@ -178,6 +180,21 @@ The JSON will be published with the following structure:
 }
 
 ```
+
+### Monitoring & Logs
+The service includes logging for:
+- OPC connection
+- Validation errors
+- MQTT connection status
+- MQTT Publishing messages
+
+Logs are output to the console and saved in Docker logs. You can view them using:
+
+
+### Fault Tolerance
+If the script encounters an error or crashes, Docker will automatically restart the container due to the restart: unless-stopped policy. This ensures continuous service availability without manual intervention.
+
+
 ## Final Notes
 - Make sure the .env and Docker Compose configurations match the setup of your robot
 - All OPC UA node IDs should be validated before deployment
