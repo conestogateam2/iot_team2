@@ -60,4 +60,4 @@ export function stopRealtimeMode() {
     clearInterval(intervalId);
     intervalId = null;
   }
-}*/
+}

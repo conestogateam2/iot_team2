@@ -1,7 +1,7 @@
 import { initHBOTScene } from './scene/hbotScene.js';
-//import * as THREE from 'three';
+import {localToUTCISOString, clamp, mapRange } from './functions/functions.js';
 
-// Referencias a DOM
+// References
 const container3D = document.getElementById('three-container')!;
 const coordX = document.getElementById('coordX')!;
 const coordY = document.getElementById('coordY')!;
@@ -11,7 +11,7 @@ const fromInput = document.getElementById('fromTime') as HTMLInputElement;
 const toInput = document.getElementById('toTime') as HTMLInputElement;
 const startRepeatButton = document.getElementById('startRepeat') as HTMLButtonElement;
 
-// Inicializar escena
+// Initialize scene
 const {
   scene,
   camera,
@@ -28,27 +28,13 @@ let repeatData: any[] = [];
 let repeatIndex = 0;
 let repeatTimeout: any = null;
 
+//Variables for manual simulation
 const manualPosition = { x: 0, y: 0, z: 0 };
 const stepSize = 0.1;
 
-// Helpers
-function clamp(val: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, val));
-}
 
-function mapRange(value: number, inMin: number, inMax: number, outMin: number, outMax: number) {
-  return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
-}
 
-function localToUTCISOString(local: string): string {
-  const [date, time] = local.split('T');
-  const [year, month, day] = date.split('-').map(Number);
-  const [hour, minute] = time.split(':').map(Number);
-  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
-  return utcDate.toISOString();
-}
-
-// Posición visual
+// Update Visual position
 function updateRobotPosition(x: number, y: number, z: number) {
   elements.endEffector.position.set(x, y, z);
   elements.xRail.position.x = x;
@@ -78,6 +64,7 @@ async function fetchPosition() {
     const data = await response.json();
 
     rawData.innerHTML = `
+      timestamp: ${data.timestamp}<br>
       position_x: ${data.position_x.toFixed(2)}<br>
       position_y: ${data.position_y.toFixed(2)}<br>
       position_z: ${data.position_z.toFixed(2)}<br>
@@ -104,7 +91,7 @@ async function fetchPosition() {
   }
 }
 
-// Fetch repetido
+// Fetch historic
 async function fetchRepeatSequence(from: string, to: string) {
   try {
     const response = await fetch(`/robots?from=${from}&to=${to}&robot_name=HBOT`);
@@ -165,7 +152,7 @@ function playRepeatSequence() {
   if (currentMode !== 'manual') return;
 
   manualPosition[axis] += direction * stepSize;
-  updateRobotPosition(manualPosition.x, manualPosition.y, manualPosition.z);
+  updateRobotPosition(manualPosition.x, manualPosition.z, manualPosition.y);
 };
 
 // Cambiar modo
