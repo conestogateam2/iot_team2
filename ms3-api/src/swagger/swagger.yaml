@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: Robot Data API Team 2
+  version: 1.0.0
+  description: API for robot data and statistics
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /robots:
+    get:
+      summary: Get robot data in a time period
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: Start ISO date [2025-06-23T17:33:25Z]
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: End ISO date [2025-06-23T17:35:59Z]
+        - in: query
+          name: robot_name
+          schema:
+            type: string
+          required: false
+          description: Robot name to filter [DR1,DR2,HBOT]
+      responses:
+        '200':
+          description: List of robot data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Robot'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+
+  /robots/latest/{robot_name}:
+    get:
+      summary: Get latest data for a specific robot
+      parameters:
+        - in: path
+          name: robot_name
+          schema:
+            type: string
+          required: true
+          description: Robot name [DR1,DR2,HBOT]
+      responses:
+        '200':
+          description: Latest robot data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'
+        '404':
+          description: Robot not found
+        '500':
+          description: Server error
+
+  /robots/statistics/totalcount:
+    get:
+      summary: Get production statistics for a robot
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: Start ISO date [2025-06-20T17:35:59Z]
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: End ISO date [2025-06-23T17:35:59Z]
+        - in: query
+          name: robot_name
+          schema:
+            type: string
+          required: true
+          description: Robot name [DR1,DR2,HBOT]
+      responses:
+        '200':
+          description: Statistics
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    Robot:
+      type: object
+      properties:
+        id:
+          type: integer
+        version:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        robot_name:
+          type: string
+        is_initialized:
+          type: boolean
+        is_running:
+          type: boolean
+        is_paused:
+          type: boolean
+        has_violation:
+          type: boolean
+        position_x:
+          type: number
+        position_y:
+          type: number
+        position_z:
+          type: number
+        position_w:
+          type: number
+        torque_1:
+          type: number
+        torque_2:
+          type: number
+        torque_3:
+          type: number
+        torque_4:
+          type: number
+        speed_percentage:
+          type: number
