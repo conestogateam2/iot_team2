@@ -7,3 +7,5 @@ This repositorie contains all the applications developed for the Cohort 5 tean 2
 
 - __MS3 (Data exposure service):__ This microservice connects to a posgreSQL database and exposes its data through a RESTful API. It enables frontend applications and other services to securely query and retrieve structured information, acting as a bridge between the database and external consumers.
 
+- __HBot Dashboard:__ This dashboard will show the movements of the Hbot in 3 cases. Real time, Historical Data and Manual Movement. You will see a 3D animation of the robot and the data that is being published about it. 
+
