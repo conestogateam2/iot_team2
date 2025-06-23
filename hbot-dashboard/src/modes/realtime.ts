@@ -1,4 +1,4 @@
-import type { HBotScene } from '../scene/hbotScene';
+/*import type { initHBOTScene } from '../scene/hbotScene';
 
 let intervalId: number | null = null;
 
@@ -60,4 +60,4 @@ export function stopRealtimeMode() {
     clearInterval(intervalId);
     intervalId = null;
   }
-}
+}*/

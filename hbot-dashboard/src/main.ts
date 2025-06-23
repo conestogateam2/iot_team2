@@ -1,5 +1,5 @@
 import { initHBOTScene } from './scene/hbotScene.js';
-import * as THREE from 'three';
+//import * as THREE from 'three';
 
 // Referencias a DOM
 const container3D = document.getElementById('three-container')!;
