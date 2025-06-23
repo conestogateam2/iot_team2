@@ -36,16 +36,17 @@ The microservice validates the data and ingests it into the database.
 
 To run this microservice locally, connect to the IoT network and create a .env file with the required configuration based on your robot.
 
-### 1. Connect to the IoT Network
-Ensure your computer is connected to the IoT network and that you can reach the MQTT broker and Database. 
-
-### 2. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/conestogateam2/iot_team2.git
 
 cd ms2-ingestion
 ```
+
+### 2. Connect to the IoT Network
+Ensure your computer is connected to the IoT network and that you can reach the MQTT broker and Database. 
+
 
 ### 3. .env Configuration
 Create a .env file in the root directory with the following structure:

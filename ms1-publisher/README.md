@@ -36,10 +36,7 @@ The publishing interval can be configured as needed. For real-time monitoring, a
 
 To run this microservice on your local machine, connect to the IoT network and create a .env file with the necessary configuration based on your robot.
 
-### 1. Connect to the IoT Network
-Ensure your computer is connected to the same network and you can ping the opc server and mqtt broker.
-
-### 2. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/conestogateam2/iot_team2.git
@@ -47,7 +44,9 @@ git clone https://github.com/conestogateam2/iot_team2.git
 cd ms1-publisher
 ```
 
-> ⚠️ **Important:** Make sure to update the robot name, MQTT topic and OPC UA tags according to your specific robot setup. 
+### 2. Connect to the IoT Network
+Ensure your computer is connected to the same network and you can ping the opc server and mqtt broker.
+
 
 
 ### 3. .env Configuration
@@ -81,6 +80,7 @@ ROBOT_RUNNING="ns=1;s=HMI_GVL.M.Rob1.RUNNING"
 ROBOT_VIOLATION="ns=1;s=HMI_GVL.M.Rob1.WSVIOLATION"
 ROBOT_PAUSED="ns=1;s=HMI_GVL.M.Rob1.PAUSED"
 ```
+> ⚠️ **Important:** Make sure to update the robot name, MQTT topic and OPC UA tags according to your specific robot setup. 
 
 ### 4. Run!
 
