@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  robot-monitor:
+    image: hbot-dashboard:latest
+    container_name: hbot-dashboard3d
+    restart: unless-stopped
+    environment:
+      - HOST=robot-api
+      - BACKEND_PORT=3000
+    ports:
+      - "5000:5000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+

@@ -1,13 +1,26 @@
-// vite.config.js
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
+import dotenv from 'dotenv';
 
-//Esto permite que se puedan ejecutar las apis directamente, sin agregar cors en el backend
-export default defineConfig({
-  server: {
-    proxy: {
-      '/robots': {
-        target: 'http://localhost:3000',
-        changeOrigin: true
+
+// Load environment variables from .env file
+dotenv.config();
+
+let host = process.env.HOST;
+let port= parseInt(process.env.BACKEND_PORT || '3000', 10);
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+
+  const backendUrl = `http://${host}:${port}`
+  console.log(backendUrl)
+
+  return {
+    server: {
+      proxy: {
+        '/robots': {
+          target: backendUrl,
+          changeOrigin: true
+        }
       }
     }
   }

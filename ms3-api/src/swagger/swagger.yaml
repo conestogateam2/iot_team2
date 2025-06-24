@@ -4,8 +4,6 @@ info:
   version: 1.0.0
   description: API for robot data and statistics
 
-servers:
-  - url: http://localhost:3000
 
 paths:
   /robots:
