@@ -1,6 +1,11 @@
 import express from 'express';
 import { pool } from '../functions/db';
 import { iRobotSchema } from '../interfaces/interfaces';
+import dotenv from 'dotenv';
+
+
+dotenv.config();
+const dataTable = process.env.DB_TABLE || "table";
 
 const router = express.Router();
 
@@ -10,7 +15,7 @@ router.get('/latest/:robot_name', async (req, res) => {
 
   try {
     const result = await pool.query<iRobotSchema>(
-      'SELECT * FROM robot_data_team2 WHERE robot_name = $1 ORDER BY timestamp DESC LIMIT 1',
+      `SELECT * FROM ${dataTable} WHERE robot_name = $1 ORDER BY timestamp DESC LIMIT 1`,
       [robot_name]
     );
     if (result.rows.length === 0) {
