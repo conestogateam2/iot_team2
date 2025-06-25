@@ -138,6 +138,70 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  robot-monitor2:
+    image: ms1:latest  
+    container_name: robot-dr2
+    restart: unless-stopped
+    environment:
+      - opcendPointURL=opc.tcp://192.168.0.212:26543
+      - mqtt_Host=mqtt://192.168.0.211
+      - mqtt_username=user
+      - mqtt_password=pass
+      - mqtt_topic=m/conestoga/recycling/team2/line/recyclingLine2/robotEvent
+      - mqtt_port=1883
+      - FREQ_MS=300
+      - robot_name=DR2
+      - ROBOT_SPEED=ns=1;s=HMI_GVL.M.Rob2.SPEEDPERCENTAGE
+      - ROBOT_X=ns=1;s=HMI_GVL.M.Rob2.ROBOTPOS.X
+      - ROBOT_Y=ns=1;s=HMI_GVL.M.Rob2.ROBOTPOS.Y
+      - ROBOT_Z=ns=1;s=HMI_GVL.M.Rob2.ROBOTPOS.Z
+      - ROBOT_W=ns=1;s=HMI_GVL.M.Rob2.ROBOTPOS.W
+      - ROBOT_TORQUE1=ns=1;s=HMI_GVL.M.Rob2.MACTTORQUE[1]
+      - ROBOT_TORQUE2=ns=1;s=HMI_GVL.M.Rob2.MACTTORQUE[2]
+      - ROBOT_TORQUE3=ns=1;s=HMI_GVL.M.Rob2.MACTTORQUE[3]
+      - ROBOT_TORQUE4=ns=1;s=HMI_GVL.M.Rob2.MACTTORQUE[4]
+      - ROBOT_INITIALIZED=ns=1;s=HMI_GVL.M.Rob2.INITIALIZED
+      - ROBOT_RUNNING=ns=1;s=HMI_GVL.M.Rob2.RUNNING
+      - ROBOT_VIOLATION=ns=1;s=HMI_GVL.M.Rob2.WSVIOLATION
+      - ROBOT_PAUSED=ns=1;s=HMI_GVL.M.Rob2.PAUSED
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  robot-monitor3:
+    image: ms1:latest  
+    container_name: robot-hbot
+    restart: unless-stopped
+    environment:
+      - opcendPointURL=opc.tcp://192.168.0.212:26543
+      - mqtt_Host=mqtt://192.168.0.211
+      - mqtt_username=user
+      - mqtt_password=pass
+      - mqtt_topic=m/conestoga/recycling/team2/line/recyclingLine0/robotEvent
+      - mqtt_port=1883
+      - FREQ_MS=300
+      - robot_name=HBOT
+      - ROBOT_SPEED=ns=1;s=HMI_GVL.M.Rob3.SPEEDPERCENTAGE
+      - ROBOT_X=ns=1;s=HMI_GVL.M.Rob3.ROBOTPOS.X
+      - ROBOT_Y=ns=1;s=HMI_GVL.M.Rob3.ROBOTPOS.Y
+      - ROBOT_Z=ns=1;s=HMI_GVL.M.Rob3.ROBOTPOS.Z
+      - ROBOT_W=ns=1;s=HMI_GVL.M.Rob3.ROBOTPOS.W
+      - ROBOT_TORQUE1=ns=1;s=HMI_GVL.M.Rob3.MACTTORQUE[1]
+      - ROBOT_TORQUE2=ns=1;s=HMI_GVL.M.Rob3.MACTTORQUE[2]
+      - ROBOT_TORQUE3=ns=1;s=HMI_GVL.M.Rob3.MACTTORQUE[3]
+      - ROBOT_TORQUE4=ns=1;s=HMI_GVL.M.Rob3.MACTTORQUE[4]
+      - ROBOT_INITIALIZED=ns=1;s=HMI_GVL.M.Rob3.INITIALIZED
+      - ROBOT_RUNNING=ns=1;s=HMI_GVL.M.Rob3.RUNNING
+      - ROBOT_VIOLATION=ns=1;s=HMI_GVL.M.Rob3.WSVIOLATION
+      - ROBOT_PAUSED=ns=1;s=HMI_GVL.M.Rob3.PAUSED
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
 
 ```
 
