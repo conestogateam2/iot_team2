@@ -1,4 +1,4 @@
-## Import/Export sql file in/to Postgres DB
+## Import and Export sql file to Postgres DB
 
 This guide explains how to import the `Team2_table_export.sql` table dump into your PostgreSQL database with Linux bash
 
@@ -8,7 +8,7 @@ This guide explains how to import the `Team2_table_export.sql` table dump into y
 - The `Team2_table_export.sql` file
 - Access to the target database and user credentials
 
-### Steps to inport
+### Steps to import
 
 ### 1: Create the Target Database (If Needed)
 
@@ -37,6 +37,8 @@ psql -U <username> -h <host> -p <port> -d <database_name>
 ### Steps to export
 
 ### 1: Export Database from a Postgres DB
+
+pg_dump -h <host> -p <port> -U <username> -d <database_name> -t <table_name> -F p -f <output_file.sql>
 
 #### Example
     pg_dump -h 192.168.0.211 -p 3306 -U postgres -d academy06 -t robot_data_team2 -F p -f Team2_table_export.sql
