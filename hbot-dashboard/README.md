@@ -2,16 +2,28 @@
 
 This dashboard was developed using the threejs library for create 3D animation, and is intended to use two API's for obtain data from the database about the status of the robot.
 
-## Objective
-
-3 operation modes will be find. 
-- __RealTime:__ In this mode, the robot will use the api __robot/latest__ to get the last data of the robot and the movement will be reflected in the robot simulation. Basically, it works as a digital twin of the real robot. For using this mode we recommend publish position in a highest frequency, 100 to 300 ms the movement simulation will show smooth transitions 
-- Repeat: In the repeat mode, you will be able to choose a period of time and the robot will repeat this specific period, you will everything that the robots did in this period. For this case will use the api __/robots?from=2025-06-20T20:30:00Z&to=2025-06-20T20:31:00Z&robot_name=HBOT__
-- Manual: This mode is just a simulation, you can move manually the 3 axis of the robots, but this will no affect the real robot, it is just showing the simulation in the virtual model, this could be used for calculations needed when the robot is being programed. 
-
 ## Features
 - Connects to the database using MS3 apis
 - 3 work modes (RealTime, Repeat and Manual)
+
+## Operation mode
+
+3 operation modes are available.  
+
+### RealTime
+In this mode, the robot will use the api __robot/latest__ to get the last data of the robot and the movement will be reflected in the robot simulation. Basically, it works as a digital twin of the real robot. For using this mode we recommend publish position in a highest frequency, 100 to 300 ms the movement simulation will show smooth transitions 
+
+![RealTime](./images/repeat.png)
+
+### Repeat
+In the repeat mode, you will be able to choose a period of time and the robot will repeat this specific period, you will see everything that the robots did in this period. For this case will use the api __/robots?from=2025-06-20T20:30:00Z&to=2025-06-20T20:31:00Z&robot_name=HBOT__
+![RealTime](./images/repeat.png)
+
+### Manual
+This mode is just a simulation, you can move manually the 3 axis of the robots, but this will no affect the real robot, it is just showing the simulation in the virtual model, this could be used for calculations needed when the robot is being programed. 
+
+![RealTime](./images/manual.png)
+
 
 ## Required APIs
 
@@ -117,20 +129,6 @@ Once that the service is running, you will be able to see the dashboard in:
 
 http://localhost:5173/
 
-
-
-## Operation Mode 
-
-### RealTime
-In this mode, the 3 microservices running are required to corractly update the robot movement.
-
-![RealTime](./images/repeat.png)
-
-### Repeat
-![RealTime](./images/repeat.png)
-
-### Manual
-![RealTime](./images/manual.png)
 
 ## Authors 
 - Juan Jimenez

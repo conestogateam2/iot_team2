@@ -11,6 +11,7 @@ This microservice enable the APIs that will allow a user to obtain information a
 - Enable 3 APIs
 - Logs information and errors to monitor microservice status
 - Automatically restarts in Docker if the script fails
+- Swagger allows the user to test the APIs and see the database schema
 
 ## APIs
 
@@ -232,6 +233,17 @@ npm run dev
 
 Once you've verified it works correctly, you can proceed to deploy the service.
 
+## Swagger
+
+The following image shows will be available for testing the APIs and see the database structure. 
+
+To access to the swagger documentation you should go to: 
+
+    http://localhost:4000/api-docs/
+
+Notice that the port can change according of your configuration of the microservice. 
+
+![RealTime](./images/swagger.png)
 
 ## Deploy Microservice
 
