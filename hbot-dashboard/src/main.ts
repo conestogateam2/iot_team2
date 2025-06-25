@@ -86,7 +86,7 @@ async function fetchPosition() {
 
     updateRobotPosition(posX, posY, posZ);
   } catch (err) {
-    rawData.textContent = 'Error al obtener datos';
+    rawData.textContent = 'Error obtaining data';
     console.error(err);
   }
 }
@@ -104,15 +104,15 @@ async function fetchRepeatSequence(from: string, to: string) {
     repeatData = data;
 
     if (repeatData.length === 0) {
-      rawData.textContent = 'No se encontró data en ese rango';
+      rawData.textContent = 'Valid values not found';
       return;
     }
 
     repeatIndex = 0;
     playRepeatSequence();
   } catch (err) {
-    console.error('Error al obtener historial:', err);
-    rawData.textContent = 'Error al obtener historial';
+    console.error('Error obtaning historic values:', err);
+    rawData.textContent = 'Error obtaning historic values';
   }
 }
 
