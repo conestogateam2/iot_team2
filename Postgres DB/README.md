@@ -1,10 +1,10 @@
 ## Import and Export sql file to Postgres DB
 
-This guide explains how to import the `Team2_table_export.sql` table dump into your PostgreSQL database with Linux bash
+This guide shows how to import Team2_table_export.sql into a Postgres database using Linux bash, and how to export the entire database to a file.
 
 ### Prerequisites
 
-- PostgreSQL (version 16 recommended)
+- Postgres (version 16 recommended)
 - The `Team2_table_export.sql` file
 - Access to the target database and user credentials
 
