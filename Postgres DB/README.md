@@ -1,4 +1,4 @@
-## Importing/Export sql file into PostgreSQL
+## Import/Export sql file in/to Postgres DB
 
 This guide explains how to import the `Team2_table_export.sql` table dump into your PostgreSQL database with Linux bash
 
