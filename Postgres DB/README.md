@@ -17,23 +17,24 @@ If your database does not exist, create it with:
 In Linux bash
 createdb -U <username> -h <host> -p <port> <database_name>
 
-Example:
+#### Example:
     createdb -U postgres -h 192.168.0.211 -p 3306 academy06
 
 ### 2: Import the SQL file
 
 psql -U <username> -h <host> -p <port> -d <database_name> -f Team2_table_export.sql
 
-Example:
+#### Example:
     psql -U posgres -h 192.168.0.211 -p 3306 -d academy06 -f Team2_table_export.sql
 
 ### 3: Verify the Table
 
 psql -U <username> -h <host> -p <port> -d <database_name>
 
-Example:
+#### Example:
     psql -U posgres -h 192.168.0.211 -p 3306 -d academy06
 
 ### 4: Export Database from an Postgres DB
 
-pg_dump -h 192.168.0.211 -p 3306 -U postgres -d academy06 -t robot_data_team2 -F p -f Team2_table_export.sql
+#### Example
+    pg_dump -h 192.168.0.211 -p 3306 -U postgres -d academy06 -t robot_data_team2 -F p -f Team2_table_export.sql
