@@ -8,7 +8,7 @@ This guide explains how to import the `Team2_table_export.sql` table dump into y
 - The `Team2_table_export.sql` file
 - Access to the target database and user credentials
 
-### Steps
+### Steps to inport
 
 ### 1: Create the Target Database (If Needed)
 
@@ -34,7 +34,9 @@ psql -U <username> -h <host> -p <port> -d <database_name>
 #### Example:
     psql -U posgres -h 192.168.0.211 -p 3306 -d academy06
 
-### 4: Export Database from an Postgres DB
+### Steps to export
+
+### 1: Export Database from a Postgres DB
 
 #### Example
     pg_dump -h 192.168.0.211 -p 3306 -U postgres -d academy06 -t robot_data_team2 -F p -f Team2_table_export.sql
