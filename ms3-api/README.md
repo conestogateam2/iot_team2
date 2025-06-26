@@ -257,8 +257,8 @@ version: "3.8"
 
 services:
   robot-monitor:
-    image: ms2:latest
-    container_name: robot-ingestion-app
+    image: ms3:latest
+    container_name: robot-api
     restart: unless-stopped
     environment:
       - MQTT_BROKER_URL=mqtt://192.168.0.211

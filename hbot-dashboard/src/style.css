@@ -6,80 +6,156 @@
 
 html, body {
   height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #121212;
-  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
 }
 
 header {
-  height: 60px;
-  background-color: #1f1f1f;
+  height: 70px;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  border-bottom: 1px solid #444;
+  border-bottom: 2px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  gap: 20px;
 }
 
+.dashboard-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #880e0a;
+  white-space: nowrap;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+
 .logo {
-  height: 40px;
+  height: 50px;
+}
+
+.controls {
+  flex: 1;
+  text-align: center;
 }
 
 .controls button {
-  margin: 0 5px;
-  padding: 8px 16px;
-  background-color: #333;
+  margin: 0 8px;
+  padding: 10px 20px;
+  background-color: #880e0a;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .controls button:hover {
-  background-color: #555;
+  background-color: #c2362c;
 }
 
 .date {
-  font-size: 14px;
+  font-size: 0.9em;
+  color: #555;
 }
 
 #main {
   display: flex;
-  height: calc(100vh - 60px); /* Full height minus header */
+  height: calc(100vh - 70px);
 }
 
 #three-container {
-  width: 50vw;
+  width: 55vw;
   height: 100%;
-  overflow: hidden;
+  background-color: #e0e0e0;
 }
 
 #coord-panel {
-  width: 50vw;
+  width: 45vw;
   height: 100%;
-  background-color: #111;
-  color: #0f0;
-  font-family: monospace;
-  font-size: 1.2em;
-  padding: 1em;
+  background-color: #ffffff;
+  color: #880e0a;
+  font-size: 1.1em;
+  padding: 1.5em;
   overflow-y: auto;
+  border-left: 1px solid #ccc;
 }
 
-.axis-control button {
-  padding: 16px 32px;
-  font-size: 1.4em;
-  background-color: black;
-  color: #00ff00;
-  border: 3px solid #00ff00;
-  border-radius: 8px;
-  cursor: pointer;
-  min-width: 80px;
-  min-height: 60px;
-  font-weight: bold;
+h2, h3 {
+  color: #880e0a;
+  margin-bottom: 10px;
+}
+
+.axis-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
 }
 
 .axis-control label {
-  font-size: 1.2em;
+  font-size: 1em;
   width: 30px;
+  font-weight: bold;
 }
 
+.axis-control button {
+  padding: 6px 14px;
+  font-size: 1em;
+  background-color: #ffffff;
+  color: #880e0a;
+  border: 2px solid #880e0a;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.axis-control button:hover {
+  background-color: #f8dddd;
+}
+
+input[type="datetime-local"] {
+  padding: 6px;
+  font-size: 1em;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button#startRepeat {
+  background-color: #a2211b;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button#startRepeat:hover {
+  background-color: #c2362c;
+}
+
+hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+#rawData {
+  font-size: 0.95em;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+}
