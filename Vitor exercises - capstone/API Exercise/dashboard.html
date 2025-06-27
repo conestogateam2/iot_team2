@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robot Data Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1f1f1f;
+      color: #f0f0f0;
+      margin: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #00bcd4;
+      margin-bottom: 1rem;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    input[type="date"], button {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    input[type="date"] {
+      background-color: #2c2c2c;
+      color: #ffffff;
+    }
+
+    button {
+      background-color: #00bcd4;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1rem;
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    th, td {
+      border: 1px solid #3a3a3a;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #333;
+      color: #00bcd4;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #333333;
+    }
+
+    canvas {
+      margin-top: 3rem;
+      background-color: #fff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🤖 Robot Status Dashboard</h1>
+
+  <div class="controls">
+    <label for="dateInput">Select date:</label>
+    <input type="date" id="dateInput" />
+    <button onclick="loadSelectedDate()">Load Date</button>
+    <button onclick="loadLast24Hours()">Show Last 24h</button>
+  </div>
+
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>Robot</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+        <th>Torque 1</th>
+        <th>Torque 2</th>
+        <th>Torque 3</th>
+        <th>Torque 4</th>
+        <th>Status</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <canvas id="positionChart" width="600" height="300"></canvas>
+
+  <script>
+    let scatterChart;
+
+    async function fetchData(query = '') {
+      try {
+        const res = await fetch(`http://localhost:5000/api/robotdata${query}`);
+        const data = await res.json();
+        renderTable(data);
+        renderChart(data);
+      } catch (err) {
+        console.error('Fetch error:', err);
+      }
+    }
+
+    function renderTable(data) {
+      const tbody = document.querySelector('#data-table tbody');
+      tbody.innerHTML = '';
+
+      data.forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${entry.robot_name}</td>
+          <td>${entry.x}</td>
+          <td>${entry.y}</td>
+          <td>${entry.z}</td>
+          <td>${entry.t1 ?? '—'}</td>
+          <td>${entry.t2 ?? '—'}</td>
+          <td>${entry.t3 ?? '—'}</td>
+          <td>${entry.t4 ?? '—'}</td>
+          <td>${entry.is_running ? '🟢 Running' : '⏸️ Idle'}</td>
+          <td>${new Date(entry.timestamp).toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderChart(data) {
+      const xPoints = data.map(e => e.x);
+      const yPoints = data.map(e => e.y);
+      const ctx = document.getElementById('positionChart').getContext('2d');
+
+      if (scatterChart) scatterChart.destroy();
+      scatterChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Robot Position (X/Y)',
+            data: xPoints.map((x, i) => ({ x: x, y: yPoints[i] })),
+            backgroundColor: '#00bcd4',
+            pointRadius: 4
+          }]
+        },
+        options: {
+          plugins: {
+            legend: { labels: { color: '#fff' } }
+          },
+          scales: {
+            x: { title: { display: true, text: 'X', color: '#fff' }, ticks: { color: '#fff' } },
+            y: { title: { display: true, text: 'Y', color: '#fff' }, ticks: { color: '#fff' } }
+          }
+        }
+      });
+    }
+
+    function loadSelectedDate() {
+      const date = document.getElementById('dateInput').value;
+      if (!date) return;
+      const from = `${date} 00:00:00`;
+      const to = `${date} 23:59:59`;
+      fetchData(`?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&limit=100`);
+    }
+
+    function loadLast24Hours() {
+      const now = new Date();
+      const to = now.toISOString().slice(0, 19).replace('T', ' ');
+      const fromDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      const from = fromDate.toISOString().slice(0, 19).replace('T', ' ');
+      fetchData(`?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&limit=100`);
+    }
+
+    fetchData('?limit=20');
+  </script>
+
+</body>
+</html>

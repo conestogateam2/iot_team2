@@ -1,0 +1,3 @@
+robot1_robot_x_position
+robot1_robot_y_position
+robot1_finished_part_count

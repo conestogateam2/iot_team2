@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robot Data Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #f2f2f2; }
+    canvas { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+
+  <h1>🤖 Robot Status Dashboard</h1>
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>Robot</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+        <th>Speed (%)</th>
+        <th>Status</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <canvas id="positionChart" width="600" height="300"></canvas>
+
+  <script>
+    async function loadData() {
+      const res = await fetch('http://localhost:4000/api/robotdata?limit=20');
+      const data = await res.json();
+      const tbody = document.querySelector('#data-table tbody');
+      const xPoints = [];
+      const yPoints = [];
+
+      data.forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${entry.robot_name}</td>
+          <td>${entry.x}</td>
+          <td>${entry.y}</td>
+          <td>${entry.z}</td>
+          <td>${entry.speed_percent}</td>
+          <td>${entry.is_running ? '🟢 Running' : '⏸️ Idle'}</td>
+          <td>${new Date(entry.timestamp).toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+        xPoints.push(entry.x);
+        yPoints.push(entry.y);
+      });
+
+      new Chart(document.getElementById('positionChart'), {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Robot Position (X/Y)',
+            data: xPoints.map((x, i) => ({ x: x, y: yPoints[i] })),
+            backgroundColor: 'blue',
+            pointRadius: 4
+          }]
+        },
+        options: {
+          scales: {
+            x: { title: { display: true, text: 'X' } },
+            y: { title: { display: true, text: 'Y' } }
+          }
+        }
+      });
+    }
+
+    loadData();
+  </script>
+
+</body>
+</html>
